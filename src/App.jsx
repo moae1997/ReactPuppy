@@ -1,17 +1,17 @@
 import './App.css'
 import Puppies from './Puppies'
-import Search from './Search'
-import AddPup from './AddPup'
 import { useState } from 'react'
+import { Puppy } from './Puppy';
 
 function App() {
 
-  const [Pups, setPups] = useState([]);
+const [clickedPuppy, setClickedPuppy] = useState(null);
 
   return (
     <>
-      <AddPup Pups={Pups} setPups={setPups}/>
-      <Puppies Pups={Pups} setPups={setPups}/>
+      {
+        (clickedPuppy)? <Puppy clickedPuppy={clickedPuppy} setClickedPuppy={setClickedPuppy}/> : <Puppies clickedPuppy={clickedPuppy} setClickedPuppy={setClickedPuppy}/>
+      }
     </>
   )
 }

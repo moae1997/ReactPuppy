@@ -1,32 +1,71 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import PuppyList from "./PuppyList";
-import AddPup from "./AddPup";
+import { bringPup, bringPups, deletePup, createPup } from "./Api";
 
-function Puppies({Pups, setPups}) {
+function Puppies({setClickedPuppy}) {
+  const [puppies, setPuppies] = useState([])
+  const [puppyname, setPuppyName] = useState("");
+  const [breed, setBreed] = useState("");
+  const [image, setImage] = useState("");
+  const [team, setTeam] = useState("");
+
+  useEffect(() => {
+    bringPups().then(setPuppies);
+  }, []);
+
+  async function handleSubmit(event) {
+      event.preventDefault();
+
+      createPup({
+        name: puppyname,
+        breed: breed,
+        imageUrl: image,
+        teamId: team
+      }).then(()=>{
+        bringPups().then(setPuppies);
+        setPuppyName("");
+        setBreed("");
+        setImage("");
+        setTeam("");
+      })
+     
+    }
+
+    async function handleClick(puppyId) {
+        deletePup(puppyId).then(()=>{
+          bringPups().then(setPuppies);
+        })
+    }
+
+    async function handlePress(puppyId) {
+        setClickedPuppy(puppyId);
+    }
+
     
-    useEffect(() => {
-        async function fetchPups() {
-          try {
-            const response = await fetch(
-              "https://fsa-puppy-bowl.herokuapp.com/api/2308-ACC-ET-WEB-PT-B/players"
-            ); 
-            const result = await response.json(); 
-            setPups(result.data.players);
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        fetchPups()
-      }, []);
-      console.log(Pups);
     return (
       <>
+         <h2>Add A Puppy Player!</h2>
+        <div>
+        <form onSubmit={handleSubmit} >
+        <label>PuppyName: <input value={puppyname} onChange={(e) => setPuppyName(e.target.value)} required/></label>
+        <label>PuppyBreed: <input value={breed} onChange={(e) => setBreed(e.target.value)} required/></label>
+        <label>PhotoUrl: <input value={image} onChange={(e) => setImage(e.target.value)} required/></label>
+        <label>Puppy's Team: <input value={team} onChange={(e) => setTeam(e.target.value)} required/></label>
+        <button>Submit</button>
+        </form>
+        </div>
+
         <div className="pups">
-            {Pups.map((puppy)=>{
+            {puppies.map((puppy)=>{
             return (
-               <PuppyList puppy={puppy} key={puppy.id} /> 
+              <div className="pupdiv" key={puppy.id}>
+        <h3>Name: <span className="namespan">{puppy.name}</span></h3>
+                <h3>ID: {puppy.id}</h3>
+                <button onClick={()=> handlePress(puppy.id)} className="viewDetails">Details</button>
+                <button onClick={()=> handleClick(puppy.id)} className="removePlayer">Remove</button>
+                <img src={puppy.imageUrl} alt="image" height="250" width="300"/>
+        </div>
             )    
             })}
            
