@@ -1,4 +1,5 @@
 import React from "react";
+import './App.css'
 import { bringPup, deletePup } from "./Api";
 import { useState } from "react";
 import { useEffect } from "react";

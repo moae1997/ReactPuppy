@@ -75,14 +75,52 @@ button:focus-visible {
 
 }
 
+.pups img {
+    border-radius: 50%;
+    box-shadow: 1px 1px 2px 5px orchid;
+}
+
+.pupdiv button {
+  margin: 15px;
+}
+
 .pupdiv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding: 15px;
-  margin: 30px;
+  margin: 20px;
   text-align: start;
   border: 1px solid white;
   box-shadow: 1px 1px 2px 5px gray;
 }
 
+.pupName {
+  margin-right: 15px;
+}
+
 .namespan {
-  color: brown
+  color: brown;
+}
+
+.searchDiv {
+  margin: 50px;
+}
+
+.formDiv form {
+  display: grid;
+  width: 30%;
+  margin: auto;
+  padding: 5px;
+  border: 1px solid orchid;
+  box-shadow: 1px 1px 2px 3px gray;
+}
+
+.formDiv form button {
+  background-color: gray;
+  width: 30%;
+  margin: auto;
+}
+
+.formDiv form input {
+  margin-bottom: 5px;
 }
